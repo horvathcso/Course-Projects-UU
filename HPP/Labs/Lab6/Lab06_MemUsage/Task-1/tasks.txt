@@ -1,0 +1,66 @@
+Runetimes:
+merge sort:
+-O3 flags
+10000: 0.004s
+100000: 0.037s
+1000000: 0.111s
+10000000: 1.114s
+100000000:12.991
+
+
+bubble_sort:
+-O3 flags
+1000: 0.006s
+10000: 0.094s
+100000: 2.985s
+1000000: >>60sec
+
+
+After introducing memory leak the merge sort runtimes:
+10000: 0.007s
+100000: 0.037s
+1000000: 0.150s
+10000000: 1.513s
+100000000: Terminal colleps due to lack of memory
+
+Note: For memory leaks the performance difference is mesurable for long lists. Also after a while it stops working due to lack of memory.
+
+After memory optimization:
+merge sort -O3:
+10000: 0.003s
+100000: 0.026s
+1000000: 0.100 s
+10000000: 0.989s
+100000000: 11.163s
+
+It is around 10% better performance for larger lists
+
+With stack memory:
+10000: 0.004s
+100000: 0.011s
+1 000 000: 0.095s
+10000000: segmentation error : we run out of stack memory
+
+stack size: 8192kb -> around 1-2000 000 is the limit for sorting
+
+
+Using bubble_sort for small values:
+NN=100 -O3 etc
+10000:0.003s
+100000:0.018s
+1000000: 0.129s
+
+NN=50 -O3 etc
+10000:0.004s
+100000:0.027s
+1000000: 0.105s
+
+NN=25 -O3 etc
+10000:0.004s
+100000:0.022s
+1000000: 0.900s
+
+NN=20 -O3 etc
+10000:0.004s
+100000:0.023s
+1000000: 0.900s

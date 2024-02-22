@@ -1,0 +1,59 @@
+runtime with unrolling: (-O3)
+    Doing 400 iterations with N=232 using apply_stencil function version 1 took   0.752 wall seconds.
+    Doing 400 iterations with N=232 using apply_stencil function version 2 took   0.776 wall seconds.
+
+no-opt:
+    Doing 400 iterations with N=232 using apply_stencil function version 1 took   2.682 wall seconds.
+    Doing 400 iterations with N=232 using apply_stencil function version 2 took   2.653 wall seconds.
+
+So this doesn't made any improvement right now.
+
+
+After changning constnt to 4
+    Doing 400 iterations with N=200 using apply_stencil function version 1 took   0.045 wall seconds.
+    Doing 400 iterations with N=200 using apply_stencil function version 2 took   0.051 wall seconds.
+
+
+In uu linux computers:
+c=20
+    Doing 400 iterations with N=232 using apply_stencil function version 1 took   1.129 wall seconds.
+    Doing 400 iterations with N=232 using apply_stencil function version 2 took   1.051 wall seconds.
+
+
+c=4
+    Doing 400 iterations with N=200 using apply_stencil function version 1 took   0.086 wall seconds.
+    Doing 400 iterations with N=200 using apply_stencil function version 2 took   0.085 wall seconds.
+
+c=40
+    Doing 400 iterations with N=272 using apply_stencil function version 1 took   2.644 wall seconds.
+    Doing 400 iterations with N=272 using apply_stencil function version 2 took   2.596 wall seconds.
+
+So it is skightkly faster in the uu computers
+
+
+Block implementation aint faster:
+40
+    Doing 400 iterations with N=272 using apply_stencil function version 1 took   3.941 wall seconds.
+    Doing 400 iterations with N=272 using apply_stencil function version 2 took   3.126 wall seconds.
+    Doing 400 iterations with N=272 using apply_stencil function version 3 took   3.127 wall seconds.
+20
+    Doing 400 iterations with N=232 using apply_stencil function version 1 took   1.738 wall seconds.
+    Doing 400 iterations with N=232 using apply_stencil function version 2 took   1.347 wall seconds.
+    Doing 400 iterations with N=232 using apply_stencil function version 3 took   1.348 wall seconds.
+
+own computer:
+10
+    Doing 400 iterations with N=212 using apply_stencil function version 1 took   0.306 wall seconds.
+    Doing 400 iterations with N=212 using apply_stencil function version 2 took   0.314 wall seconds.
+    Doing 400 iterations with N=212 using apply_stencil function version 3 took   0.298 wall seconds.
+
+20
+    Doing 400 iterations with N=232 using apply_stencil function version 1 took   0.778 wall seconds.
+    Doing 400 iterations with N=232 using apply_stencil function version 2 took   0.732 wall seconds.
+    Doing 400 iterations with N=232 using apply_stencil function version 3 took   0.729 wall seconds.
+40
+    Doing 400 iterations with N=272 using apply_stencil function version 1 took   2.954 wall seconds.
+    Doing 400 iterations with N=272 using apply_stencil function version 2 took   2.021 wall seconds.
+    Doing 400 iterations with N=272 using apply_stencil function version 3 took   2.025 wall seconds.
+
+Slightly faster for small inside loops

@@ -1,0 +1,42 @@
+First: Runetimes after adding __restrict:
+transform_std tests took   0.429 wall seconds.
+transform_opt tests took   0.295 wall seconds.
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+
+So it has significant difference in this case.
+
+
+Changeing np to NP in the for loop has a small difference:
+transform_std tests took   0.429 wall seconds.
+transform_opt tests took   0.278 wall seconds.
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+
+
+After adding the const keyword to NP we get a major performance improvement:
+transform_std tests took   0.412 wall seconds.
+transform_opt tests took   0.044 wall seconds.
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+
+
+
+If we declare inside:
+
+no const:
+transform_std tests took   0.434 wall seconds.
+transform_opt tests took   0.049 wall seconds.
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+
+const:
+transform_std tests took   0.421 wall seconds.
+transform_opt tests took   0.050 wall seconds.
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+
+It doesn't make any improvement. My guess would be the optimizer can find out that it is a local variable 
+only declared and not modified by anything so it can work with it as a const if decleared inside.
+But if declared outside it can be changed by other processes and the compiler can't find out that it's not the case. (there are multiple files etc.)
+

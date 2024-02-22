@@ -1,0 +1,64 @@
+Outut:
+block: 100, N=5000
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+do_transpose_mod_standard 1 times for N=5000 took   0.208 wall seconds.
+do_transpose_mod_optimized 1 times for N=5000 took   0.077 wall seconds.
+
+
+There is a significant improvement with the original code on my computer.
+
+Some modification:
+
+block size: 200 N=5000
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+do_transpose_mod_standard 1 times for N=5000 took   0.199 wall seconds.
+do_transpose_mod_optimized 1 times for N=5000 took   0.068 wall seconds.
+
+
+block:50 N=5000
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+do_transpose_mod_standard 1 times for N=5000 took   0.200 wall seconds.
+do_transpose_mod_optimized 1 times for N=5000 took   0.093 wall seconds.
+
+b=250 N=5000
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+do_transpose_mod_standard 1 times for N=5000 took   0.197 wall seconds.
+do_transpose_mod_optimized 1 times for N=5000 took   0.071 wall seconds.
+
+
+b=500 N=5000
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+do_transpose_mod_standard 1 times for N=5000 took   0.198 wall seconds.
+do_transpose_mod_optimized 1 times for N=5000 took   0.114 wall seconds.
+
+
+
+Optimal block size around 50-250. Since 5000 has finite divisor it is hard to test precisely
+
+
+b=100 N=6000
+do_transpose_mod_standard 1 times for N=6000 took   0.301 wall seconds.
+do_transpose_mod_optimized 1 times for N=6000 took   0.090 wall seconds.
+
+b=150 N=6000
+do_transpose_mod_standard 1 times for N=6000 took   0.328 wall seconds.
+do_transpose_mod_optimized 1 times for N=6000 took   0.086 wall seconds.
+
+b=200 N=6000
+do_transpose_mod_standard 1 times for N=6000 took   0.304 wall seconds.
+do_transpose_mod_optimized 1 times for N=6000 took   0.079 wall seconds.
+
+b=250 N=6000
+do_transpose_mod_standard 1 times for N=6000 took   0.310 wall seconds.
+do_transpose_mod_optimized 1 times for N=6000 took   0.080 wall seconds.
+
+b=300 N=6000
+do_transpose_mod_standard 1 times for N=6000 took   0.360 wall seconds.
+do_transpose_mod_optimized 1 times for N=6000 took   0.093 wall seconds.
+
+So seemingly the best block size on my computer is around 200-250

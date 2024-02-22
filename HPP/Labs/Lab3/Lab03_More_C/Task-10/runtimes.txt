@@ -1,0 +1,22 @@
+Permutations of asdfg are: (5)
+In total 120 permutations
+
+real	0m0,003s
+user	0m0,002s
+sys	0m0,000s
+
+
+Permutations of asdfghjkly are: (10)
+In total 3628800 permutations
+
+real	0m0,311s
+user	0m0,307s
+sys	0m0,004s
+
+
+Permutations of asdfghjklyxc are: (12)
+In total 479001600 permutations
+
+real	0m7,658s
+user	0m7,657s
+sys	0m0,001s

@@ -1,0 +1,46 @@
+The timeing of my inline code in the dictionary
+
+Slow:
+-no opt:
+    real	0m1,472s
+    user	0m1,468s
+    sys	0m0,004s
+
+-O1
+    real	0m0,037s
+    user	0m0,037s
+    sys	0m0,000s
+
+-O2
+    real	0m0,003s
+    user	0m0,003s
+    sys	0m0,000s
+
+-O3
+    real	0m0,002s
+    user	0m0,000s
+    sys	0m0,002s
+
+
+Fast:
+-no opt:
+    real	0m1,034s
+    user	0m1,033s
+    sys	0m0,000s
+
+-O1
+    real	0m0,037s
+    user	0m0,037s
+    sys	0m0,000s
+
+-O2
+    real	0m0,001s
+    user	0m0,001s
+    sys	0m0,000s
+-O3
+    real	0m0,002s
+    user	0m0,000s
+    sys	0m0,003s
+
+Conclusion: This task can be made faster with inlining if using no compiler optimization (by default this way inlineing won't occur so I forced the compiler)
+But with any optimization flag the compiler optimization is much more significant for this task, than manual inlining (most likely it is doing inlining automatically)

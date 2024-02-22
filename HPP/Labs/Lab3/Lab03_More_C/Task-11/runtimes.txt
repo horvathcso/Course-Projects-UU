@@ -1,0 +1,27 @@
+Complexití: runetime o(n^2), space o(1)
+
+n=10
+real	0m0,002s
+user	0m0,000s
+sys	0m0,002s
+
+n=100
+real	0m0,002s
+user	0m0,002s
+sys	0m0,001s
+
+n=1000
+real	0m0,010s
+user	0m0,010s
+sys	0m0,000s
+
+n=10000
+real	0m0,913s
+user	0m0,912s
+sys	0m0,000s
+
+n=50000
+real	0m26,777s
+user	0m26,766s
+sys	0m0,001s
+

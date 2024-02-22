@@ -1,0 +1,21 @@
+CC = gcc
+LD = gcc
+CFLAGS = -O3 -Wall -Werror
+LDFLAGS = 
+RM = /bin/rm -f
+OBJS = main.o sort_funcs.o
+EXECUTABLE = sort_test
+
+all:$(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJS)
+	$(LD) $(LDFLAGS) -fopenmp $(OBJS) -o $(EXECUTABLE)
+
+sort_funcs.o: sort_funcs.h sort_funcs.c
+	$(CC) $(CFLAGS) -fopenmp -c sort_funcs.c
+
+main.o: main.c sort_funcs.h
+	$(CC) $(CFLAGS) -fopenmp -c main.c 
+
+clean:
+	$(RM) $(EXECUTABLE) $(OBJS)

@@ -1,0 +1,196 @@
+Expectation the memset and memmove version is faster slightly ~10%, 
+but I have no idea since it is in an optimized libary therefore it should be faster, 
+but I don't know how much faster.
+
+Measures:
+Slow:
+-no optimized
+    real	0m0,390s
+    user	0m0,386s
+    sys	0m0,004s
+
+-O1
+    real	0m0,092s
+    user	0m0,088s
+    sys	0m0,005s
+
+-O2
+    real	0m0,039s
+    user	0m0,039s
+    sys	0m0,000s
+
+-O3
+    real	0m0,020s
+    user	0m0,020s
+    sys	0m0,000s
+
+
+Fast: memmove
+-no optimized
+    real	0m0,015s
+    user	0m0,015s
+    sys	0m0,001s
+
+-O1
+    real	0m0,024s
+    user	0m0,023s
+    sys	0m0,001s
+
+-O2
+    real	0m0,043s
+    user	0m0,042s
+    sys	0m0,001s
+
+-O3
+   real	0m0,037s
+    user	0m0,033s
+    sys	0m0,004s
+ 
+ memcpy:
+ -no opt
+    real	0m0,023s
+    user	0m0,022s
+    sys	0m0,001s
+
+-O1
+    real	0m0,022s
+    user	0m0,019s
+    sys	0m0,004s
+
+-O2
+    real	0m0,022s
+    user	0m0,021s
+    sys	0m0,001s
+
+-O3
+    real	0m0,039s
+    user	0m0,039s
+    sys	0m0,000s
+
+Conclusion: As expected the predefined version is faster without optimization flags, 
+but it has about the same performance as the default version with strong compiler optimization.
+And compiler optimization if somthing then makes performance worse in the memset case.
+Also no real time defference between memcpy or memmove.
+
+
+I expect larger difference for bigger call values and the fast version with look up should run in constant time for the implemented values 
+while the calculation version can take signicifact times for large factorials
+So since we run in a loop for lot of values I would say we will see a significant time difference when calling without and with compiler optimization, since this is something the compiler opt wont don
+Guess 300%, but we will see
+
+Runetimes:
+Slow:
+-no opt
+    real	0m0,438s
+    user	0m0,434s
+    sys	0m0,005s
+
+-O1
+    real	0m0,039s
+    user	0m0,040s
+    sys	0m0,000s
+
+-O2
+    real	0m0,145s
+    user	0m0,145s
+    sys	0m0,000s
+
+-O3
+    real	0m0,122s
+    user	0m0,118s
+    sys	0m0,004s
+
+Fast:
+-no opt:
+    real	0m0,162s
+    user	0m0,162s
+    sys	0m0,000s
+
+-O1
+    real	0m0,038s
+    user	0m0,038s
+    sys	0m0,000s
+
+-O2
+    real	0m0,079s
+    user	0m0,078s
+    sys	0m0,000s
+
+-O3
+    real	0m0,085s
+    user	0m0,085s
+    sys	0m0,000s
+ 
+
+ As expected with no opt it is much faster, but I was surprised, that with O1 flag the runtime becomes the same. (likely measurment errors)
+ I was expection the same smaller difference as we see in other O flags
+
+ Function best suitable for lookup optimization are the functional functions,so the one only depending on the input and returning a value.
+ For these it is possible to implement a lookup verion if we want only use a fixed not too large different key pair calling of the function.
+
+
+ Strength_reduction: 
+ Original:
+ -no opt
+    real	0m0,630s
+    user	0m0,629s
+    sys	0m0,001s
+
+-O1
+    real	0m0,442s
+    user	0m0,442s
+    sys	0m0,000s
+
+-O2
+    real	0m0,442s
+    user	0m0,442s
+    sys	0m0,000s
+    
+-O3:
+    real	0m0,444s
+    user	0m0,444s
+    sys	0m0,000s
+
+after reformulation (after some try this is my fastest, but can't really improve)
+-no opt
+    real	0m0,610s
+    user	0m0,611s
+    sys	0m0,000s
+
+-O1
+    real	0m0,424s
+    user	0m0,424s
+    sys	0m0,000s
+
+etc: can't reach significant difference
+
+math_function.c 
+power
+-no opt
+    real	0m0,921s
+    user	0m0,916s
+    sys	0m0,004s
+
+-O1 -O2 -O3 around the same values
+    real	0m0,806s
+    user	0m0,805s
+    sys	0m0,001s
+
+sqrt
+-no opt
+    real	0m0,111s
+    user	0m0,111s
+    sys	0m0,000s
+ 
+-O1 -O2 -O3 same around original runetime
+    real	0m0,105s
+    user	0m0,104s
+    sys	0m0,001s
+
+sqrtf -slightly slower e.g:
+-no opt
+    real	0m0,123s
+    user	0m0,123s
+    sys	0m0,001s
+
+I don't understand why sqrt (doubly) is faster then sqrtf (float), but power should obviously be slower. 

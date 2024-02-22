@@ -1,0 +1,16 @@
+original runetimes:
+    f_std tests took   0.701 wall seconds.
+    f_opt tests took   0.788 wall seconds.
+    Checking correctness: abs_diff =        0
+    OK, result seems correct.
+
+
+after modification to no number greater than half:
+    f_std tests took   0.260 wall seconds.
+    f_opt tests took   0.282 wall seconds.
+    Checking correctness: abs_diff =        0
+    OK, result seems correct.
+
+The runtimes becomes around 2.5 time faster with numbers only smaller than half
+
+It is still slower than previously the hand maded + optimized version without if statements. 0.198s

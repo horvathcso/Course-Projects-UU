@@ -1,0 +1,37 @@
+orifgnal:
+    Result sum: 838134976
+    Function call counter: 400000000
+
+    real	0m3,520s
+    user	0m3,520s
+    sys	0m0,000s
+
+manually outside loop:
+    Result sum: 838134976
+    Function call counter: 20000
+
+    real	0m0,004s
+    user	0m0,001s
+    sys	0m0,003s
+
+
+with setting __attribute__((const))
+    Result sum: 838134976
+    Function call counter: 20000
+
+    real	0m0,004s
+    user	0m0,001s
+    sys	0m0,003s
+
+It gives the same result as doing it manually (call counter and runetime), So this two versioon is basically eqvivalent.
+
+
+Insert inside source code:
+    Result sum: 838134976
+    Function call counter: 400000000
+
+    real	0m0,180s
+    user	0m0,176s
+    sys	0m0,004s
+
+It makes the calls faster, but it still makes unnecesary lot function call, therefore the other options are better.

@@ -1,0 +1,18 @@
+-O3
+After
+Hint 1
+    Ref: time = 0.307472
+    Auto-vec: time = 1.651020
+
++HINT2:
+march=native
+    Ref: time = 0.309442
+    Auto-vec: time = 1.379938
+mavx2
+    Ref: time = 0.308081
+    Auto-vec: time = 1.343444
+
++Ofast insted of O3
+    Ref: time = 0.154922
+    Auto-vec: time = 1.024421
+

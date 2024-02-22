@@ -1,0 +1,110 @@
+LOOP INVARIANTS
+Expectation: The fast version will be faster, since the multiplication operator is slower then calling a value of a variable.
+
+Runtimes:
+version: slow - no optimization
+	real	0m1,042s
+	user	0m0,858s
+	sys	0m0,185s
+
+version: slow - O1
+	real	0m0,534s
+	user	0m0,295s
+	sys	0m0,239s
+
+version: slow - O3
+	real	0m0,522s
+	user	0m0,219s
+	sys	0m0,303s
+
+
+version: fast - no opt
+	real	0m0,991s
+	user	0m0,747s
+	sys	0m0,244s
+
+version: fast - O1
+	real	0m0,543s
+	user	0m0,327s
+	sys	0m0,216s
+
+version: fast - O3
+	real	0m0,537s
+	user	0m0,231s
+	sys	0m0,306s
+		
+Note: The actuall speed difference does not match my expectation. Without optimization the fast version is a bit better, but with optimization the runtime basically the same.
+
+
+
+STRING LOOP
+Expectation: Since inside the foor loop we don't do much the iterator can become signicifant, so the version with while is expected to be faster
+
+Runetimes:
+version: slow - no opt
+	real	0m1,965s
+	user	0m1,965s
+	sys	0m0,000s
+
+version: slow - O1
+	real	0m0,610s
+	user	0m0,606s
+	sys	0m0,004s
+
+version: slow - O3
+	real	0m0,843s
+	user	0m0,843s
+	sys	0m0,000s
+
+version: fast: no
+	real	0m1,634s
+	user	0m1,631s
+	sys	0m0,000s
+
+version: fast: O1
+	real	0m0,434s
+	user	0m0,434s
+	sys	0m0,000s
+
+version: fast: O3
+real	0m0,024s
+user	0m0,024s
+sys	0m0,000s
+
+noe: Conclusen: Without optim it is matched my expectation. With optim the while version becomes very fast.
+
+
+ARRAY LOOP:
+expect: again the difference is in the way we use the loope variant. Here I expect less or no difference, since I think the inside operator is more expencive and both way we need to change a variable and check logical value.
+
+v: slow-no
+	real	0m0,943s
+	user	0m0,922s
+	sys	0m0,000s
+
+v: slow-o1
+	real	0m0,054s
+	user	0m0,053s
+	sys	0m0,000s
+
+v: slow -O3	
+	real	0m0,002s
+	user	0m0,002s
+	sys	0m0,000s
+
+v: fast-no
+	real	0m0,953s
+	user	0m0,949s
+	sys	0m0,004s
+
+v: fast-O1
+	real	0m0,043s
+	user	0m0,042s
+	sys	0m0,001s
+
+v: fast -O3
+	real	0m0,002s
+	user	0m0,001s
+	sys	0m0,002s
+
+note: Expectation are matched. No difference. As we can see both optim flag is very useful and O3 s much stronget in this case.

@@ -1,0 +1,20 @@
+n=1
+Integral is approx. 2.5580414075004643
+Time: 74.397101 s
+
+n=2
+ntegral is approx. 2.5580414074904070
+Time: 37.463845 s
+
+n=4
+Integral is approx. 2.5580414074895925
+Time: 19.209556 s
+
+n=16
+ntegral is approx. 2.5580414074936408
+Time: 5.202409 s
+
+32
+Integral is approx. 2.5580414074945272
+Time: 2.669852 s
+

@@ -1,0 +1,14 @@
+Enter the dimension of matrices n = 1200
+Version kij, time = 4.567661
+Version ijk, time = 9.846483
+Version jik, time = 5.655758
+
+
+Best version kij, since in the innner loop it is efficiently addding the values
+The jki also a good permutation and the ijk is the worst one.
+
+With block implementation:
+űEnter the dimension of matrices n = 1400
+Version kij_block, time = 8.756753
+Version ijk, time = 17.449705
+Version jik, time = 11.185861

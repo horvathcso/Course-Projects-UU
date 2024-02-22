@@ -1,0 +1,254 @@
+\subsection*{Task 1}
+Let's start with the explanation what I think is happening. When calling pthread the pthread process starts in a new thread or core. Starting a new process makes some time. So it is possible that the main function reach the join statement earlier than the thread is finished. Than we wait till the thread finishes the process.
+
+To illustrate the running structure first we show code and output with sleep statements. To make it easier we present a program which starts n process, where n is a given integer and in each process do sleep(s) and printing out the thread number in a loop length of 4. The main process doing the same, but writing out main as output.
+
+The c codes can be found in the end of this pdf as appendix. The commandline outputs will be shown with the title of the corresponding codes.
+
+\begin{lstlisting}[basicstyle=\ttfamily,frame=single]
+Output from Task1-1.c:
+ This is the main() function starting.
+ the main() function now calling pthread_create().
+ This is the main() function after pthread_create()
+ main
+ main
+ Thread: 1
+ Thread: 2
+ main
+ Thread: 1
+ Thread: 2
+ main
+ Thread: 1
+ Thread: 2
+ the main() function now calling pthread_join().
+ Thread: 1
+ Thread: 2
+\end{lstlisting}
+
+As we can see the main process already done one extra iteration until the thread processes started. Also the main process finished and calling join earlier than the two thread stops running.
+
+We can also notice that the threads are running paralel, this is shown by the fact that the print statements are happening in mixed version and note the same outpute next to each other.
+
+If we change the number of iteration inside the threads to a smaller number we can see that they finishes earlier. e.g: with for cycle of length of 2:
+
+
+\begin{lstlisting}[basicstyle=\ttfamily,frame=single]
+Output:
+ This is the main() function starting.
+ the main() function now calling pthread_create().
+ This is the main() function after pthread_create()
+ main
+ main
+ Thread: 2
+ Thread: 1
+ main
+ Thread: 2
+ Thread: 1
+ main
+ the main() function now calling pthread_join().
+\end{lstlisting}
+
+As we see, now the threads are finished earlier than the main process.
+
+Before using the top, we modify the code, because due to the sleep process our current code only good for illustrating the parallel running, but it is not make the CPU work hard due to sleeping all the time.
+
+So let's run the code shown in \textit{Task1-2.c} where the processes are the one given in the description. And see the output of the top command now. We get greater than 200\% CPU usage. 
+
+This concludes our work with task 1, because we already used 3 threads and show that they run parallel.
+ 
+\subsection*{Task 2}
+\textit{Note: I already presented these techniques in Task 1 with giving integers as n argument to be able to out put the number of the thread where the print statements coming from}
+\vspace{0.5 cm}
+
+Now we present the results after casting the void pointer into double and printing out the arguments. This way we can aces data inside a thread which comes from the main(). I already represent the results after adding the second thread. I gave only negative values to the second thread to be able to see which print comes from which thread.
+
+\begin{lstlisting}[basicstyle=\ttfamily,frame=single]
+Out Task2.c:
+ This is the main() function starting.
+ the main() function now calling pthread_create().
+ Data from thread: 5.700000
+ Data from thread: 9.200000
+ Data from thread: 1.600000
+ Data from thread: -1.000000
+ Data from thread: -3.141500
+ Data from thread: -0.600000
+ This is the main() function after pthread_create()
+ the main() function now calling pthread_join().
+\end{lstlisting}
+
+From this we can see that the threads are started after each other and it is takes time each time to start a new thread. Therefore, we can see now that thread 1 is finished sooner, than thread 2 makes the first print.
+
+\subsection*{Task 3}
+In this task I added the timing to the code as can be seen in \textit{Task3.c} in the appendix. And after changes N1 and N2 values so that the sum stays 800 000 000. And I represent the measured run times in the table below. I run the code with no optimization flag, therefor we can see the pure run times of the code. 
+
+\begin{tabular}{c | c || c | c | c}
+ N1 ($10^6$)& N2 ($10^6$)& overall runtime & thread time & main time\\ \hline 
+ 800 & 0 & 1.698784 & 0 & 1.698562\\
+ 700 & 100 & 1.532832 & 0.258706 & 1.532622\\
+ 600 & 200 & 1.272026 & 0.500200 & 1.271758\\
+ 500 & 300 & 1.147072 & 0.731680 & 1.146820\\
+ 400 & 400 & 0.962239 & 0.952223 & 0.962040\\
+ 300 & 500 & 1.204806 & 1.204492 & 0.766922\\
+ 200 & 600 & 1.321373 & 1.321061 & 0.487110\\
+ 100 & 700 & 1.491471 & 1.491067 & 0.250247\\
+ 0 & 800 & 1.735986 & 1.735727 & 0
+ \end{tabular} 
+ 
+As we see from the run times, we get the best performance when the threads do the same amount of work. The main thread and the extra thread do the works in the same time. We can also notice that the overall runtime of the program is only a bit longer, than the maximum runtime of the two threads. This is because the extra runtime comes from the staring and ending of the thread and some other extra process such as print statements.
+ 
+The optimal runtime when we split the task equally between the two thread results almost two time faster run time as we can expect it for computer with at least two core.
+
+So this concludes Task 3 with the conclusion that splitting a suitable task to n threads can results up to n time faster runtime if our computer has n core and the task takes significant time compared to the necessary system procedures.     
+
+\subsection*{Task 4}
+First let's measure the run times of the naive serialized implementation which can be found in the appendix under \textit{Task4-1.c}. For time measurement in this task I used the time command.
+
+\begin{tabular}{c | c}
+M & time(s)\\ \hline
+10000 & 0.047 s\\
+100000 & 0.916 s\\
+200000 & 3.459 s 
+\end{tabular}
+
+Now we will make our code run on two threads as asked in the description. For this purpose I will divide the for cycle into two parts at 70\% (I suppose $0.7\cdot M$ is integer furthermore $M$ dividable by 100), because the later outer iteration have longer inside loop. It would be possible to use mathematical tools to calculate where we should split the iteration into two to get same number of inside iterations, but now I won't do this. 
+
+The modified code can be found in appendix under \textit{Task4-2.c}. We present run time measurement below.
+
+\begin{tabular}{c | c}
+M & time(s)\\ \hline
+10000& 0.38 s\\
+100000 & 0.584 s\\
+200000 & 2.168 s
+\end{tabular}
+
+As we can see even without searching the optimal split point we can reach a significant improvement in the time of the program with using one more thread. The improvement results almost 2 time faster run times, or at least better than 1.5 faster run time. 
+
+\subsection*{Task 5}
+For this task I can use the same code as my original code for task 1. I can even delete the for cycles and sleeps and one print statement is enough in the function. The exact code for this task is under the name \textit{Task5.c} in the appendix. I present an output with running 10 thread. Note: since computer has finite number of cores and resources it is not efficient to use too much thread. It can make the run time longer if we use each thread for too small portion of a task, hence the time of system operation for starting new thread will become significant in this case.
+
+\begin{lstlisting}[basicstyle=\ttfamily,frame=single]
+ This is the main() function starting.
+ the main() function now calling pthread_create().
+ Thread: 1
+ Thread: 2
+ Thread: 3
+ Thread: 4
+ Thread: 5
+ Thread: 6
+ Thread: 7
+ Thread: 8
+ Thread: 9
+ This is the main() function after pthread_create()
+ main
+ the main() function now calling pthread_join().
+ Thread: 10
+\end{lstlisting}
+
+As we see the order of in which the threads start are the same as we call them. This aspect is different from e.g: python's process pool system, because there we can't be sure in which order the task will be executed. 
+
+\subsection*{Task 6}
+I don't expect to reach such improvement in the run time, because it would be a hard problem to determinate how to split the outer loop, such that the work done by the different threads would be the same. Therefore as a naive approach let's split the outer loop into same size partitions. Note: this way the last thread will be running the longest, so that is the run time what will be matter. And it can be close to the last version if there the longer runtime came from the last 30\%, but if the first 70\% gave the most of runtime, than we can still see significant improvement. 
+
+During the implementation I supposed that M/N is an even integer. Otherwise it would be a bit harder to determinate the split points. And it would require some if statement, and maybe an other implementation of the creation of the split points matrix. So for simplicity we supposed the above in this implementation.  	
+
+The code can be found in appendix under name \textit{Task-6.c}. Now we represent some run time measurements with $N=4$. Here we also use the time function and we show the real times in the table.
+
+\begin{tabular}{c | c}
+M & time (s)\\ \hline
+10000 & 0.016 s\\
+100000 & 0.539s\\
+200000 & 2.003s
+\end{tabular}
+
+We gained significant improvement only in the case of 10000. There the run times are effected by the starting process due to the small run times. So here we see improvement most likely, because I started running with the longest thread and than started the shorter ones. And this is the only case where the thread started first ain't the last to finish.
+
+So the measurement results are what I expected. I can't see much improvement compare to the 2 thread, most likely, because there the last 30\% of the outer loop takes up more or the same amount of time as the first 70\%. And here the run times comes from the last 25\% of the outer loop, because here the inner loops are much longer. So the results we see makes sens. If we would like to optimize the performance, than we could make the splittings another way. Either calculate where to split so that all threads have the same run time, or we could use other guessing which would results in improvement (e.g: first split point at 50\% than each new split points divide the last part into half).    
+
+Now to test what we can reach with more thread let's use $M=200000$ and measure runtime with different number of threads. The used $N$ number are chosen to satisfy the above said property such that $M/N$ an even integer.
+
+\begin{tabular}{c | c}
+N & time (s)\\ \hline
+2 & 2.612 s\\
+4 & 1.980 s\\
+8 & 1.706 s \\
+10 & 1.589 s\\ 
+20 & 1.575 s\\
+40 & 1.555 s\\
+50 & 1.580 s\\
+100 & 1.580 s\\
+200 & 1.582 s\\
+400 & 1.559 s\\
+1000 & 1.560 s\\
+5000 & 1.767 s
+\end{tabular}
+
+Note: my computer has 2 core in it and both has 2 core in it.\\ 
+Also my implementation of the problem is not suitable to determinate how long will spiting a problem make it more efficient, since now far the longest process is the thread running the last segment. Therefore as the length of the segments are getting smaller as I increase the N value it will decrease the runtime of the last process therefore it ain't matter that I don't have so much core, because the pthread framework will split the tasks more equally between the threads even if due to the calls and prints the overall work is greater.
+
+So to test real improvement in the respect to the cores I made a much worse implementation of the problem, where all inner loops have equal length (M-2) and in the outer loop we iterate one by one. This code can be found in the appendix with name \textit{Task6-2.c}. This way the different threads will have the same amount of work and thus the above runtime comparison makes sense. For the run time comparison lets use M=20000.
+
+\begin{tabular}{c | c}
+N & time (s)\\ \hline
+1 & 0.833 s\\
+2 & 0.472 s\\
+3 & 0.456 s\\
+4 & 0.394 s\\
+5 & 0.376 s\\
+6 & 0.403 s\\
+7 & 0.377 s\\
+8 & 0.389 s\\
+9 & 0.376 s\\
+10 & 0.374 s\\
+12 & 0.392 s\\
+15 & 0.376 s\\
+20 & 0.479 s\\
+40 & 0.482 s\\
+5000 & 0.634 s\\
+10000 & 0.758 s
+\end{tabular}    
+
+As we can see in the beginning the more core reduce the runtime drastically, but using unnecessary number of core don't have an impact for a while, because there the management of the threads don't require too much time, so it can even result in better use of resources. (e.g: if some thread becomes slow for some reason, than other cores can run more work). \\
+Also with 4 thread in my computer it would be expected to be optimal, but adding more thread results in better performance which I would explain with the above reasoning.
+\subsection*{Task 7}
+
+The code for this task can be found under the name \textit{Task7.c} in the appendix. This is a straightforward implementation with some printing. Every thread also write out who called it with what subprocess number.
+
+An example output can be seen here:
+
+\begin{lstlisting}
+Out: 
+ the main() function now calling pthread_create().
+ Thread 1 started from main start running.
+ Thread 2 started from main start running.
+ This is the main() function after pthread_create()
+ the main() function now calling pthread_join().
+ Thread 2 finished creating subprocess.
+ Calling subthread started from thread 1 with subnumber 1
+ Calling subthread started from thread 2 with subnumber 2
+ Thread 1 finished creating subprocess.
+ Calling subthread started from thread 1 with subnumber 2
+ Thread 1 finished running.
+ Calling subthread started from thread 2 with subnumber 1
+ Thread 2 finished running.
+\end{lstlisting}
+
+As we can see the sub-threads really working simultaneously. And the threads subprocess are running without a problem.  
+
+\subsection*{Task 8}
+First when we ran the program without any modification for a fixed number of core (more than 1) we can see different results due to the fact that different threads modified the same memory block. And without usage of mutex the threads can mess up each others access to the memory location. This is causing the changing and incorrect results. 
+
+Now we can add a mutex to the process. Mutex is used to create matual exclusion of some context. This process can make sure that an object is only accessed by one thread at a time. 
+
+If my understanding is correct we can create a \textit{pthread\_mutex\_t} object outside the main and in the begining of the main using the \textit{pthread\_mutex\_init} function, which has a return value, which can be used to make sure the initialization of the mutex object really happened. 
+
+Now in each thread we can use the \textit{pthread\_mutex\_lock} and \textit{pthread\_mutex\_unlock} functions to make sure only one thread writes at a time to the memory. And in the end we can use the \textit{pthread\_mutex\_destroy} command in the end of the main to destroy the created object.
+
+After adding this parts to our code the result will be the same for fixed N and fixed number of threads. The modified code can be found in the appendix as \textit{Task8.c} with FAST=0 in the 5th line.
+
+Since lock only grant access to one thread to the resources, so it can be useful regarding performance to lock as little part of our code as possible. Only where shared access can be confusing. 
+
+To demonstrate this I changed the N to $10^8$ so the runtime will be significant. Which is in case I run it for 10 thread results in runtime 1.798s (both real and user). Now I modified the code such that adding a tmp variable which counts the sum in a thread and only after the for cycle locking the mutex object and adding the tmp to the sum. This way due to the extra variables the user time increased to 2.553s, but due to I made the threads run really parallel again the real time decreased to 0.663s. So I made the program overall run  time faster even though I increased the overall used resources.
+
+The code for this can be run by setting the FAST to 1 in the 5th line of the code in \textit{Task8.c}.
+
+This concludes the work with task 8.

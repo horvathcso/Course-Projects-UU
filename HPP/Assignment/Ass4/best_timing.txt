@@ -1,0 +1,11 @@
+N=1000
+outer for (2) 2.963
+inner for (2) 3.685
+outer for (4) 2.976
+inner for (4) 3.992
+outer for (16) 2.901
+inner for (16) lot  >>10s
+both 2,2 3.434
+both 4,2 3.161
+both 16,2 3.151 
+none 5.044

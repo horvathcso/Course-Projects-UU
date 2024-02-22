@@ -1,0 +1,40 @@
+runetime measurements with different datatypes:
+
+char:
+100000: 0.010s
+1000000: 0.091s
+10000000: 0.904s
+100000000: 9.480s
+
+short int:
+100000: 0.011s
+1000000: 0.094s
+10000000: 0.944s
+100000000: 10.218s
+
+int:
+100000: 0.022s
+1000000: 0.098s
+10000000: 0.967s
+100000000: 12.856s
+
+longint:
+100000: 0.012s
+1000000: 0.111s
+10000000: 1.171s
+100000000: 14.134s
+
+long long :
+100000: 0.024s
+1000000: 0.109s
+10000000: 1.174s
+100000000: 19.984s
+
+note: long long and long int seems to be the same according to the sheet.
+
+The runtime is longer with larger datatypes, since memory usage makes more time for larger memory places.
+
+
+
+If we use intType everywhere for small datatypes it would limit the size of the list which we can sort (e.g: char has a very small limit) otherwise it should work just fine if we changed every int datatypes.
+Maybe if we use larger datatypes we would make our programs even more slower, but if every int can fir in a small int than maybe we even gain some performance. 

@@ -1,0 +1,18 @@
+result with and without restrict by default are the same:
+e.g:
+transform_std tests took   0.123 wall seconds.
+transform_opt tests took   0.125 wall seconds.
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+
+
+but after changing N' to 20 I can see a significant difference in runetime:
+transform_std tests took   0.280 wall seconds.
+transform_opt tests took   0.199 wall seconds.
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+
+
+So the restrict keyword has much more effect with small n and nearly has any effect for large n.
+At least with the given optimizations in my own computer architecture.
+

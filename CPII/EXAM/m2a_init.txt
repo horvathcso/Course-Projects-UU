@@ -1,0 +1,18 @@
+1 - (2 - 4) = x      # 3.0                
+x*4/2 + x            # 9.0
+(1=x) + (2=y)*(3=z)  # 7.0    
+
+# Several assignments in a statement
+1, 2, 3, 4, 5        # Last evaluated value is the value
+ans
+1 = x, 2 = y, x + y  # Assignment performed successively
+10=x 11=y  3         # Syntax error - no comma
+x                    # x got a value
+(1, 2, 3)            # Not allowed
+
+# Functions with zero arguments
+random()
+random(1)
+time()
+time(1)
+time

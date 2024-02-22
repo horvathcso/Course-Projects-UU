@@ -1,0 +1,40 @@
+Expectations: The ModifyWithStep8 is slower if the data can't fit in the cash, otherwise it should have very similar performance.
+    The advantage of the other is it is calling datas stored next to ech other, so it will be loaded into cash in one step since 8 int can fit in it.
+
+Times:
+-no opt
+slow 8:
+    real	0m0,981s
+    user	0m0,980s
+    sys	0m0,001s
+
+
+fast:
+    real	0m0,903s
+    user	0m0,903s
+    sys	0m0,001s
+
+
+_O3
+slow 8:
+    real	0m0,411s
+    user	0m0,407s
+    sys	0m0,005s
+
+fast:
+    real	0m0,156s
+    user	0m0,155s
+    sys	0m0,001s
+
+So it is match our expectation.
+
+
+
+As we increase m and decrease n it becomes faster the runtime slightly for both case e.g: n=50 around   25% faster for both
+
+And when I changed n 20-> 10 then ther is a significant time improvement in both case:
+-O3
+real	0m0,003s
+user	0m0,001s
+sys	0m0,002s
+

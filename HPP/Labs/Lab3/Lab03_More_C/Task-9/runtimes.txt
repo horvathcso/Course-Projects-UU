@@ -1,0 +1,80 @@
+n = 100
+Min value:    0.000468777  Max value:    9.999935711
+
+real	0m7,446s
+user	0m0,002s
+sys	0m0,003s
+
+
+n = 500
+Min value:    0.000017332  Max value:    9.999983115
+
+real	0m6,108s
+user	0m0,021s
+sys	0m0,005s
+
+
+n = 1000
+Min value:    0.000005635  Max value:    9.999983115
+
+real	0m2,960s
+user	0m0,055s
+sys	0m0,013s
+
+
+n = 5000
+Min value:    0.000000172  Max value:    9.999999832
+
+real	0m5,956s
+user	0m0,979s
+sys	0m0,073s
+
+
+n = 10000
+Min value:    0.000000033  Max value:    9.999999832
+
+real	0m10,101s
+user	0m5,755s
+sys	0m0,783s
+
+
+
+########## With additional allocatoin #########
+n = 100
+Min value:    0.000468777  Max value:    9.999935711
+
+real	0m6,124s
+user	0m0,000s
+sys	0m0,005s
+
+
+n = 500
+Min value:    0.000017332  Max value:    9.999983115
+
+real	0m3,552s
+user	0m0,028s
+sys	0m0,009s
+
+
+n = 1000
+Min value:    0.000005635  Max value:    9.999983115
+
+real	0m2,494s
+user	0m0,124s
+sys	0m0,025s
+
+
+n = 5000
+Min value:    0.000000172  Max value:    9.999999832
+
+real	0m6,444s
+user	0m3,775s
+sys	0m0,500s
+
+
+n = 10000
+Min value:    0.000000033  Max value:    9.999999832
+
+real	0m35,981s
+user	0m22,609s
+sys	0m3,155s

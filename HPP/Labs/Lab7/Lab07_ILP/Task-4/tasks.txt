@@ -1,0 +1,46 @@
+First: we can't just leave the last if statement, since it will be never entered. if(c>6,a(i)>0.6) -> if(c>5,a(i)>0.5) -> c=5 so not entereing the last if
+
+only commenting out the last if:
+    f_std tests took   0.678 wall seconds.
+    f_opt tests took   0.200 wall seconds.
+
+
+And seemingly at this point the optimization makes everithing else or we can't reach improvement:
+
+By hand we can remove everithing except the sum+= inside the for loop and add an if outside and leve the counter
+if (a[3]>0.5)
+{
+    sum+=0.1*a[3];
+}
+for(i = 0; i < N; i++) {
+    sum += 0.3*a[i] + a[i]*a[i];
+}
+
+    f_std tests took   0.677 wall seconds.
+    f_opt tests took   0.198 wall seconds.
+    Checking correctness: abs_diff =        0
+    OK, result seems correct.
+
+
+So lets test with no optimization:
+leaving last if out:
+    f_std tests took   1.665 wall seconds.
+    f_opt tests took   1.489 wall seconds.
+
++moving first if out of the loop:
+    f_std tests took   1.669 wall seconds.
+    f_opt tests took   1.518 wall seconds.
+seemingly it doesn't metter
+
+only moving first if out :
+    f_std tests took   1.787 wall seconds.
+    f_opt tests took   1.511 wall seconds.
+
+fully optimized above version:
+    f_std tests took   1.734 wall seconds.
+    f_opt tests took   0.481 wall seconds.
+
+
+So it is quite a lot improvment in the last step, but with -O3 as we saw the compiler can optimize these for us.
+
+So if we consider the no-optimization compilation, than it is 4 time faster than the original code.

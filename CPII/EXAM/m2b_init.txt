@@ -1,0 +1,9 @@
+1 - (2 - 4)*(5-1)
+23%5*(3-1)
+2**2**3
+ans*10
+17//4
+pi*(pi-2)
+4%(6-2*3)
+2+3 = x       # Don't implement evaluation of this
+x+8           # thus x is undefined

@@ -1,0 +1,55 @@
+With loop unrolling of 4:
+    f_std tests took   0.537 wall seconds.
+    f_opt tests took   0.441 wall seconds.
+    Checking correctness: max_abs_diff =        0
+    OK, result seems correct.
+
+_no optimization
+    f_std tests took   2.583 wall seconds.
+    f_opt tests took   2.076 wall seconds.
+    Checking correctness: max_abs_diff =        0
+    OK, result seems correct.
+
+
+unrolling 2
+    f_std tests took   0.576 wall seconds.
+    f_opt tests took   0.689 wall seconds.
+    Checking correctness: max_abs_diff =        0
+    OK, result seems correct.
+
+unroll 8
+    f_std tests took   0.536 wall seconds.
+    f_opt tests took   0.459 wall seconds.
+    Checking correctness: max_abs_diff =        0
+    OK, result seems correct.
+
+unroll 5
+f_std tests took   0.529 wall seconds.
+f_opt tests took   0.454 wall seconds.
+Checking correctness: max_abs_diff =        0
+OK, result seems correct.
+
+
+
+Seemingly the best unrolling number is 4
+
+
+For unroll 4 -o3
+    f_std tests took   0.299 wall seconds.
+    f_opt tests took   0.261 wall seconds.
+    Checking correctness: max_abs_diff =        0
+    OK, result seems correct.
+
+For unroll 4 -O3 -funroll-loops
+    f_std tests took   0.222 wall seconds.
+    f_opt tests took   0.225 wall seconds.
+    Checking correctness: max_abs_diff =        0
+    OK, result seems correct.
+
+For unroll 4 -O2 -funroll-loops
+    f_std tests took   0.440 wall seconds.
+    f_opt tests took   0.438 wall seconds.
+    Checking correctness: max_abs_diff =        0
+    OK, result seems correct.
+
+Yeah this way the original code is slightly better -> but very similar maybe a bit better unrolling

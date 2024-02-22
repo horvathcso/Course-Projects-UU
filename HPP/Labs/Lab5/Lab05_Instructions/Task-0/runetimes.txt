@@ -1,0 +1,35 @@
+regularcode:
+	real	0m1,173s
+	user	0m1,169s
+	sys	0m0,004s
+-O3
+	real	0m0,521s
+	user	0m0,516s
+	sys	0m0,005s
+
+sleepycode:
+	real	0m6,269s
+	user	0m1,261s
+	sys	0m0,008s
+-O3
+	real	0m5,653s
+	user	0m0,648s
+	sys	0m0,005s
+
+mallocycode:
+	real	0m3,449s
+	user	0m1,577s
+	sys	0m0,534s
+-O3
+	real	0m1,592s
+	user	0m1,403s
+	sys	0m0,188s
+
+thread:
+	real	0m1,275s
+	user	0m2,542s
+	sys	0m0,001s
+-O3
+	real	0m0,525s
+	user	0m1,047s
+	sys	0m0,000s

@@ -1,0 +1,132 @@
+First we tested the floating point values with our tests.c code.
+double becomes inf at 10^309 and float becomes inf at 10^39.
+It is matching my expectation based on the document, since 2^128 ~ 3*10^38 and 2^1024 ~ 1.8*10^308
+Also sqrt(-1) is NaN    
+
+Now test the procision with the other part of the tests.c code
+    : double precision is 0.5^23 and 1+eps becomes one at eps=0.5^24
+    : float precision is 0.5^52 and 1+eps becomes one at eps=0.5^53
+This is matching our expectation since the double can store 2^23 different value and float can store 2^53 different number
+
+
+Timing of denormalized.c:
+no opt:
+    1.000000e-39
+    9.999960e-40
+
+    real	0m0,222s
+    user	0m0,221s
+    sys	0m0,001s
+
+-o1
+    1.000000e-39
+    9.999960e-40
+
+    real	0m0,153s
+    user	0m0,153s
+    sys	0m0,000s
+
+-O2
+    1.000000e-39
+    9.999960e-40
+
+    real	0m0,160s
+    user	0m0,160s
+    sys	0m0,000s
+
+-O3
+    1.000000e-39
+    9.999960e-40
+
+    real	0m0,162s
+    user	0m0,158s
+    sys	0m0,004s
+
+-Ofast
+    time ./a.out 
+    1.000000e-39
+    0.000000e+00
+
+    real	0m0,101s
+    user	0m0,097s
+    sys	0m0,004s
+
+
+
+Timing for normalized.c
+noopt:
+    1.000000e-35
+    9.999999e-36
+
+    real	0m0,230s
+    user	0m0,226s
+    sys	0m0,004s
+
+-O1:
+    1.000000e-35
+    9.999999e-36
+
+    real	0m0,138s
+    user	0m0,137s
+    sys	0m0,001s
+
+-O2
+    1.000000e-35
+    9.999999e-36
+
+    real	0m0,157s
+    user	0m0,156s
+    sys	0m0,000s
+
+-O3:
+    1.000000e-35
+    9.999999e-36
+
+    real	0m0,138s
+    user	0m0,134s
+    sys	0m0,005s
+
+-Ofast
+    1.000000e-35
+    9.999999e-36
+
+    real	0m0,088s
+    user	0m0,088s
+    sys	0m0,000s
+
+
+
+Chang start 10^-50
+Denorm.can
+no opt
+0.000000e+00
+0.000000e+00
+
+real	0m0,226s
+user	0m0,222s
+sys	0m0,004s
+
+-Ofast
+    0.000000e+00
+    0.000000e+00
+
+    real	0m0,003s
+    user	0m0,001s
+    sys	0m0,002s
+
+Norm.can
+no opt
+    0.000000e+00
+    0.000000e+00
+
+    real	0m0,205s
+    user	0m0,201s
+    sys	0m0,004s
+
+_Ofast
+    0.000000e+00
+    0.000000e+00
+
+    real	0m0,003s
+    user	0m0,002s
+    sys	0m0,001s

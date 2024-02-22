@@ -1,0 +1,57 @@
+short_circuit:
+default runetime:
+	real	0m0,219s
+	user	0m0,215s
+	sys	0m0,004s
+
+default+ O1
+	real	0m0,214s
+	user	0m0,214s
+	sys	0m0,000s
+
+deafult -O3
+	real	0m0,214s
+	user	0m0,210s
+	sys	0m0,004s
+
+Now reformulate the ifs so most likly break after first evaulation. Note only run simple version since flags had no effect:
+modified no opt runetime:
+	real	0m0,162s
+	user	0m0,158s
+	sys	0m0,004s
+
+We can se it ha a significant effect on the runetime.
+
+
+Bounds:
+default -no opt:
+	real	0m0,476s
+	user	0m0,476s
+	sys	0m0,000s
+
+deafult -O1:
+	real	0m0,134s
+	user	0m0,133s
+	sys	0m0,000s
+
+default -O3:
+	real	0m0,002s
+	user	0m0,002s
+	sys	0m0,001s
+
+fast -no opt:
+	real	0m0,428s
+	user	0m0,428s
+	sys	0m0,000s
+
+fast -o1:
+	real	0m0,130s
+	user	0m0,130s
+	sys	0m0,000s
+
+fast -O3
+	real	0m0,002s
+	user	0m0,002s
+	sys	0m0,000s
+
+Note: No significant time improvment can be measured using this technique, And for this task the optimization flags seems to be very useful.

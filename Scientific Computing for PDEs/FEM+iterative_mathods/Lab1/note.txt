@@ -1,0 +1,4 @@
+Note:
+P4... 
+	The condition number change for the A matrix from the original methods (2.5939e+07) to the new methods (2.8597e+04).
+	Therefore the first method can be more efficient to implement due to its smaller conditional number. 

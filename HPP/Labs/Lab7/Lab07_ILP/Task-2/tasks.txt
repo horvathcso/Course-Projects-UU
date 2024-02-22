@@ -1,0 +1,27 @@
+With loop unrolling and leaving the if statement:
+    f_std tests took   0.552 wall seconds.
+    f_opt tests took   0.369 wall seconds.
+
+No opt:
+    f_std tests took   2.549 wall seconds.
+    f_opt tests took   1.799 wall seconds.
+
+-O3:
+    f_std tests took   0.527 wall seconds.
+    f_opt tests took   0.270 wall seconds.
+
+-O2 -funroll-loops
+    f_std tests took   0.509 wall seconds.
+    f_opt tests took   0.371 wall seconds.
+
+-O3 -funroll-loops
+    f_std tests took   0.584 wall seconds.
+    f_opt tests took   0.214 wall seconds.
+
+-O3 -funroll-all-loops
+    f_std tests took   0.622 wall seconds.
+    f_opt tests took   0.246 wall seconds.
+
+
+Conclusion: this way the compiler can't unroll the original loop. Most likly since it is needed "inteligence" to realize it can be unrolled with leaving out the if
+And otherwise the unrolling doesn't make any sence.

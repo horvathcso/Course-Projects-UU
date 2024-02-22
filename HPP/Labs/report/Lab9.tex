@@ -1,0 +1,327 @@
+\subsection*{Task 1}
+I did as the task says. The thread function is fill up a list of integers with length of a predefined value of N. So I declared a list in the thread and give the elements value. And I give it's pointer back to the main function as explained, through the join function. And than write the values out from the main. I got the values given in the thread. And in the end I freed the location to prevent memory leaks. 
+
+The code for the task can be found in the appendix under \textit{Task9\_1.c}. An output with N=10 can be found here.
+
+\begin{lstlisting}[basicstyle=\ttfamily,frame=single]
+Out: 
+ This is the main() function starting.
+ the main() function now calling pthread_create().
+ This is the main() function after pthread_create()
+ the main() function now calling pthread_join().
+ result in array[0]: 0
+ result in array[1]: 1
+ result in array[2]: 2
+ result in array[3]: 3
+ result in array[4]: 4
+ result in array[5]: 5
+ result in array[6]: 6
+ result in array[7]: 7
+ result in array[8]: 8
+ result in array[9]: 9
+\end{lstlisting} 
+
+So now we saw how to pass pointers to the threads through the create method and how to retrieve pointers from the threads through the join function. 
+
+This concludes the exercises for task 1. 
+
+\subsection*{Task 2}
+When I removed the \textit{DoItNow=1} from the main(), than the process in main still finishes in order, but since the thread function never get the \textit{DoItNow=1} value, so it will run in an infinite loop, so our programs never stop running and don't do anything after the writing out that the main is calling join. Therefore our program is broken, at least it ain't doing what we want it to do.
+
+This way we achieved to wait in a thread until some process is finished. This is a possible way to do it, but it is wasting our resources, since we are running an infinite loop, which results in an almost 200\% CPU usage during the wait phase (the highest value I saw with top was 197,4\%).
+
+Therefore we have a good reason to use the method of condition variable, which will result a same working scheme, but it is less heavy on the CPU.
+
+After adding the conditional variable to the code as described in the task we see that it is working the same way as before respect to the wait process. If I run the top command now to see how much CPU the process uses this way, I can't see higher than 100\% result. So now our wait our process of waiting don't use unnecessary resources till it is waiting and don't do anything useful.
+
+If I removed the \textit{pthread\_cond\_signal} call, I end up the same as when I removed the \textit{DoItNow=1} in the original version. So the program won't stop running. The only advantage is that I don't use any computer resources for this process. The reason is that the thread won't do anything until it receives a call to continue the process. But we deleted this call, so it will never revive it, so it will never stops running. As it is asleep it ain't use too much resources, but it can't stop running, because the main is waiting to the thread to stop running in the join method, but the thread will never return.
+
+The working version of the modified code with conditional variable is in the appendix with name \textit{Task9\_2.c}.
+
+\subsection*{Task 3}
+First let's present the result of simply using make and running the program:
+
+\begin{lstlisting}[basicstyle=\ttfamily,frame=single]
+Out:
+ Main: creating thread 0
+ Main: creating thread 1
+ Thread 0 starting...
+ Main: creating thread 2
+ Thread 1 starting...
+ Main: creating thread 3
+ Thread 2 starting...
+ Thread 3 starting...
+ Thread 0 done. Result = 4.931540e+06
+ Thread 1 done. Result = 4.931540e+06
+ Thread 3 done. Result = 4.931540e+06
+ Thread 2 done. Result = 4.931540e+06
+ Main: completed join with thread 0 having a status of 0
+ Main: completed join with thread 1 having a status of 1
+ Main: completed join with thread 2 having a status of 2
+ Main: completed join with thread 3 having a status of 3
+ Main: program completed. Exiting.
+\end{lstlisting}
+
+Now I set the type from \textit{PTHREAD\_CREATE\_JOINABLE} to\\ \textit{PTHREAD\_CREATE\_DETACHED}. Now we got error message from the join calls, it makes sense, since the threads now are not joinable, so it was expected that the join call would give us error.
+
+\begin{lstlisting}[basicstyle=\ttfamily,frame=single]
+Out:
+ Main: creating thread 0
+ Main: creating thread 1
+ Thread 0 starting...
+ Thread 1 starting...
+ Main: creating thread 2
+ Main: creating thread 3
+ Thread 2 starting...
+ ERROR; return code from pthread_join() is 22
+\end{lstlisting}
+ 
+Therefore I remove the join call from the main, since as we see it is not working, and unnecessary. With the join calls I also removed the whole for cycle around it, because it doesn't make sense to me to try and print out reference if we don't call the join function, where the reference would be determinated. The output now:
+
+\begin{lstlisting}[basicstyle=\ttfamily,frame=single]
+Out:
+ Main: creating thread 0
+ Main: creating thread 1
+ Thread 0 starting...
+ Main: creating thread 2
+ Thread 1 starting...
+ Main: creating thread 3
+ Main: program completed. Exiting.
+ Thread 2 starting...
+ Thread 3 starting...
+ Thread 3 done. Result = 4.931540e+06
+ Thread 0 done. Result = 4.931540e+06
+ Thread 2 done. Result = 4.931540e+06
+ Thread 1 done. Result = 4.931540e+06
+\end{lstlisting}
+
+Now  if I delete the exit in the end of the main, I get the following output:
+
+
+\begin{lstlisting}[basicstyle=\ttfamily,frame=single]
+Out:
+ Main: creating thread 0
+ Main: creating thread 1
+ Thread 0 starting...
+ Main: creating thread 2
+ Thread 1 starting...
+ Main: creating thread 3
+ Main: program completed. Exiting.
+\end{lstlisting}
+
+As we can see the program now stops running when it reaches the end of the main, and don't wait for the threads to finish their work first. So in this case the exit command works a bit similarly as the join when we used joinable threads. So it waits for the threads to be executed. At least seemingly that what's happening here.
+
+\textit{Note: for this part I only conclude the original program code in the document, because the others are come from removing certain, well explained parts of the original code.}
+
+
+\subsection*{Task 4}
+If I understand correctly what the barrier function does, it makes wait the threads for each other. Precisely it waits until all thread reaches the barrier function in their running and then let every thread continue it's running.
+
+This is in harmony with the output of the program:
+
+ \begin{lstlisting}[basicstyle=\ttfamily,frame=single]
+Out:
+ Hello World! 0
+ Hello World! 1
+ Hello World! 2
+ Hello World! 3
+ Hello World! 5
+ Hello World! 6
+ Hello World! 4
+ Hello World! 7
+ Bye Bye World! 7
+ Bye Bye World! 1
+ Bye Bye World! 0
+ Bye Bye World! 3
+ Bye Bye World! 2
+ Bye Bye World! 5
+ Bye Bye World! 6
+ Bye Bye World! 4
+\end{lstlisting}
+
+So the expectation is that if we remove the barrier, than in the output the Hello and Bye Bye prints will be mixed with each other, of course with a given number the hello always be earlier. 
+So now let's test this theory:
+
+\begin{lstlisting}[basicstyle=\ttfamily, frame=single]
+Out: 
+ Hello World! 0
+ Hello World! 1
+ Bye Bye World! 1
+ Hello World! 6
+ Hello World! 7
+ Bye Bye World! 7
+ Hello World! 4
+ Bye Bye World! 4
+ Hello World! 5
+ Bye Bye World! 5
+ Bye Bye World! 0
+ Hello World! 2
+ Bye Bye World! 2
+ Bye Bye World! 6
+ Hello World! 3
+ Bye Bye World! 3
+\end{lstlisting}
+
+So I was right what will happen. So we made sure the barrier really is causing a wait between the threads.
+
+\bigskip
+
+When I run the \textit{spinwait.c} without optimization it has the same effects as the first implementation. An example output is:
+
+\begin{lstlisting}[basicstyle=\ttfamily, frame=single]
+Out: 
+ Hello World! 0
+ Hello World! 2
+ Hello World! 1
+ Hello World! 5
+ Hello World! 4
+ Hello World! 6
+ Hello World! 7
+ Hello World! 3
+ Bye Bye World! 7
+ Bye Bye World! 2
+ Bye Bye World! 3
+ Bye Bye World! 0
+ Bye Bye World! 1
+ Bye Bye World! 6
+ Bye Bye World! 4
+ Bye Bye World! 5
+\end{lstlisting}
+
+Now the output will be if I compile with \textbf{-O3} the following:
+\begin{lstlisting}[basicstyle=\ttfamily, frame=single]
+Out:
+ Hello World! 0
+ Hello World! 3
+ Hello World! 2
+ Hello World! 6
+ Hello World! 1
+ Hello World! 5
+ Hello World! 7
+ Hello World! 4
+ Bye Bye World! 4
+\end{lstlisting}
+
+And the program don't stops running. I think the reason is that the while loop are becoming an infinite loop in the optimized version. Now we can prevent this with the usage of the volatile keyword, which means to the compiler that a variable can be changed even if it ain't in the source code. In this case by another thread. And without this the compiler with -O3 flag assume no change therefore an infinite while loop, which can be made optimal with checking the condition once.
+
+So now we add the volatile key word to the declaration of the \textit{state} variable. And now the program works fine even with -O3 optimization flag. 
+
+\textit{Note: for \textit{synch.c} I attach the original code which works fine. For \textit{spinwait.c} I attached the modified code wich compiles with optimization well.}
+
+\bigskip
+
+The extra part: The -O1 flag is enough for see this anomaly without volatile. Now lets see the difference below in the assembly code:
+
+\begin{lstlisting}[basicstyle=\ttfamily, frame=single]
+With volatile -O1:
+.L4:
+# spinwait.c:20:   while (mystate==state) ;
+	movl	state(%rip), %eax	# state, state.2_4
+	cmpl	%ebx, %eax	# mystate, state.2_4
+	je	.L4	#,
+\end{lstlisting}
+
+\begin{lstlisting}[basicstyle=\ttfamily, frame=single]
+Without volatile -O1:
+# spinwait.c:20:   while (mystate==state) ;
+	movl	state(%rip), %eax	# state, state.2_4
+.L4:
+# spinwait.c:20:   while (mystate==state) ;
+	cmpl	%ebx, %eax	# mystate, state.2_4
+	je	.L4	#,
+\end{lstlisting}
+
+As we can see without the key word the compiler declares the state variable outside the loop, because it thinks it can't change in the loop, but with volatile it is getting the value of state in every iteration in the cycle, so this is the difference in the assembly code level. And whats happening is mostly what I guessed earlier.
+
+\subsection*{Task 5}
+First I run the code in the original version after using make command. The original code can be found in the appendix as \textit{Task9-5-1.c}. The result of the running was the following: \textit{PI is approx 3.1415926535899894}.  The runtime was in this case \textit{real 0m0,592s}
+
+Now I modify the code to the most obvious parallel version. So each thread does equal parts of the sum. Actually in the implementation the threads do most of the work and the main only calling the threads and do a small amount of work, only the iterations which remains from the iteration after divided into equal parts through the threads. 
+
+In the parallel version I tested two option, one where I use mutex to write into a common sum. In this case with the default iteration value I got \textit{PI is approx. 3.1415926743284515} with runtime \textit{real	0m0,592s}. So this way I ain't made the process faster. 
+
+The other version was with temporary variables and only adding that to sum with mutex. Now results is \textit{PI is approx. 3.1415926743281033} and the runtime \textit{real 0m0,351s}.
+
+Both case was with usage of 3 threads.
+
+
+As we see the results are a bit different in each case. It is due to the storage of the double numbers, it always has numerical errors and depending on how we working with it it has different size of error as we saw it on previous labs. And it is also depends on the optimizations and weather we makes it use normalized floating point numbers or not. So now we understand what causes the difference in the results.
+
+
+Just for fun and to see the differences better I run the code with multiplying iteration with 10. For this purpose I set the variables to long. 
+
+\begin{tabular}{c|c|c}
+version & results & time\\ \hline
+original & 3.1415926535898167 & 5,959s\\
+parallel & 3.1415926588186847 & 5,801s\\
+with tmp & 3.1415926588122001 & 3,125s
+\end{tabular}
+
+
+As we see we can reach a 2 time improvement. Now I used 8 threads. The difference of the results are still remaining.
+
+After taking a look at the results we can see that the original serialized method is the most precise. The explanation can be that in this way the we always use the same floating point precision, resulting in the best results.  But the parallel methods also produces better and better results as we increase the number of iterations.
+
+This conclude task 5. We saw that using threads we can make the process faster and we also saw that working with floting point numbers can results in different results if we sum the values together differently.
+
+
+\subsection*{Task 6}
+First I run the original program (\textit{Task9-6-1.c}) with the usage of make. The result is : \textit{Time: 3.506381  NUM\_THREADS: 5}. 
+
+Now I modified the code, so that instead of lots of for loop in the main and little task on one thread at a time I now only calling threads once and in the $i$-th thread I sort to the correct space the first $i$-th part of the list. This implementation can be found in the appendix as \textit{Task9-6-2.c}. Now the runtime data is : \textit{Time: 0.945144 NUM\_THREADS: 5}
+
+As we can see we reached a significant time improvement with this modification. The computational complexity of the enumeration-sort algorithm is $\mathcal{O}(n^2)$, because for each element we iterate through the whole list. This is $n^2$ operation.
+
+The merge sort has a runtime of $\mathcal{O}(n log n)$. So it is a better algorithm in theoretical complexity. Although with the usage of the parallel computation we made an efficient implementation of this algorithm. And the merge sort is very hard to make parallel, so in certain cases this may be a faster algorithm. Mostly because for small arrays the merge sort algorithm is not too efficient.
+
+So for comparison here are the runtime data from Lab6 Task1 of the merge sort with $-O3$. Same as the enum\_sort:
+
+\begin{tabular}{c|c|c}
+sort & N & time(s)\\ \hline
+merge &10000& 0.004\\
+merge & 100000& 0.037\\
+merge & 1000000 & 0.111\\
+merge & 10000000 &1.114\\
+merge & 100000000 &12.991\\
+& & \\
+enum & 	10000 & 0.016\\
+enum & 	100000 & 0.927\\
+enum & 	1000000 & 182.957391\\
+\end{tabular}
+
+We can see that for large lists the enum method getting slower much faster, than with merge sort. So this is enough proof for that in large lists the merge sort is much better, than the enumerate sort. 
+
+
+\subsection*{Task 7}
+First I ran the original code with make and take a look at the runtime with $n=1000$. The results was: \textit{3.186866 wall seconds} and a correct result. The code for this is \textit{Task9-7-1.c}.
+
+Now I made my first parallel version. From the three for cycle I run the inner two in the threads, and I call THREAD\_NUM amount of thread at a time inside the outer for loop, if it doesn't become greater, than the limit. The runtime for this implementation is : \textit{Elapsed time: 2.180577 wall seconds}. This code can be found as \textit{Task9-7-2.c}. 
+
+To decide weather or not this have the same problem as the last task, so it is running too small process in threads. So I make an implementation where I make more computation in each thread, so I make a same change as in Task 6, and I only call threads once and make iteration inside them.
+
+Now I make time measurements with $n=1000$ and using THREAD\_NUM of 2, because my laptop little resources this will result in the best runtime. 
+Now my second implementation runs faster \textit{Elapsed time: 1.481405 wall seconds} and I could only fast up the code a bit with the change to run time \textit{Elapsed time: 1.445460 wall seconds}. And these results are 2 time faster than the original, which is around the improvement I could reach in my computer.
+
+\bigskip
+
+We will find out for which n-s are the parallelization worth it. For this purpose I will use my last implementation as the parallel one.
+
+\begin{tabular}{c|c|c}
+sort & N & time(s)\\ \hline
+serial & 1000 & 3.199540 \\
+serial & 500 & 0.143459 \\
+serial & 400 & 0.079965\\
+serial & 300 & 0.054702\\
+serial & 200 & 0.013072\\
+&&\\
+par & 	1000 & 1.448582\\
+par & 	500 & 0.085197\\
+par & 	400 & 0.050932 \\
+par & 300 & 0.036233\\
+par & 200 & 0.027863 
+\end{tabular}    
+
+As we can see between 300 and 200 will the serialized version become faster.
+
+
+With this we finished Task 9.
